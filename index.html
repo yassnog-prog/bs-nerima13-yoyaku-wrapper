@@ -9,53 +9,48 @@
   <meta name="apple-mobile-web-app-title" content="公共施設予約状況">
   <title>公共施設予約状況 - 東京練馬13団</title>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='12' fill='%23355e3b'/%3E%3Ctext x='50' y='62' text-anchor='middle' font-size='44' font-weight='bold' fill='%23fff' font-family='sans-serif'%3E13%3C/text%3E%3C/svg%3E">
+
+  <!--
+    2026-07 変更: Google が Apps Script の iframe 埋め込み(XFrameOptionsMode.ALLOWALL)を
+    廃止し X-Frame-Options: SAMEORIGIN を強制したため、この GitHub Pages から
+    GAS アプリを iframe 表示できなくなった(「接続が拒否されました」)。
+    → iframe 方式をやめ、GAS アプリの直接 URL へリダイレクトする。
+      既存のブックマーク / ホーム画面アイコン(この github.io URL)はそのまま使える。
+  -->
+  <meta http-equiv="refresh" content="0; url=https://script.google.com/macros/s/AKfycbyoSryeRY6LlxxhHAIaKfubrCYTdYBTMd_9_VUMh14iU5wfA5mVxxgr9ZGhQRx1bMLH/exec">
+
   <style>
     html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      overflow: hidden;
-      background: #f5f1e6; /* khaki-light ベース、ロード中の白フラッシュ防止 */
-    }
-    #app {
-      width: 100%;
-      height: 100%;
-      border: 0;
-      display: block;
-    }
-    /* ロード中の簡易プレースホルダ */
-    #loading {
-      position: fixed;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
+      margin: 0; padding: 0; height: 100%; width: 100%;
+      background: #f5f1e6;
       font-family: -apple-system, "Segoe UI", "Hiragino Sans", "Yu Gothic UI", sans-serif;
-      color: #355e3b;
-      font-size: 1rem;
-      text-align: center;
-      pointer-events: none;
     }
-    #loading.hidden { display: none; }
+    #loading {
+      position: fixed; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      color: #355e3b; font-size: 1rem; text-align: center;
+    }
     #loading .spinner {
       width: 32px; height: 32px; margin: 0 auto .6rem;
       border: 3px solid #d6cdb5; border-top-color: #355e3b;
       border-radius: 50%; animation: spin .8s linear infinite;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
+    #loading a { color: #355e3b; font-weight: 700; }
   </style>
 </head>
 <body>
   <div id="loading">
     <div class="spinner"></div>
-    <div>読み込み中…</div>
+    <div>公共施設予約状況を開いています…</div>
+    <div style="margin-top:.9rem; font-size:.85rem;">
+      自動で移動しない場合は
+      <a id="fallback" href="https://script.google.com/macros/s/AKfycbyoSryeRY6LlxxhHAIaKfubrCYTdYBTMd_9_VUMh14iU5wfA5mVxxgr9ZGhQRx1bMLH/exec">こちらをタップ</a>
+    </div>
   </div>
-  <iframe
-    id="app"
-    src="https://script.google.com/macros/s/AKfycbyoSryeRY6LlxxhHAIaKfubrCYTdYBTMd_9_VUMh14iU5wfA5mVxxgr9ZGhQRx1bMLH/exec"
-    allow="clipboard-read; clipboard-write; web-share"
-    onload="document.getElementById('loading').classList.add('hidden')"
-    referrerpolicy="no-referrer-when-downgrade"
-    title="公共施設予約状況"
-  ></iframe>
+  <script>
+    // JS が有効なら即リダイレクト(replace で履歴を汚さず、戻るループを防ぐ)
+    location.replace("https://script.google.com/macros/s/AKfycbyoSryeRY6LlxxhHAIaKfubrCYTdYBTMd_9_VUMh14iU5wfA5mVxxgr9ZGhQRx1bMLH/exec");
+  </script>
 </body>
 </html>
